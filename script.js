@@ -26,6 +26,10 @@ function deleteLast() {
 }
 
 function appendNumber(num) {
+    if (currentValue === 'Error') {
+        clearDisplay();
+    }
+    
     if (waitingForOperand) {
         currentValue = num;
         waitingForOperand = false;
@@ -42,6 +46,11 @@ function appendNumber(num) {
 }
 
 function appendOperator(op) {
+    if (currentValue === 'Error') {
+        clearDisplay();
+        return;
+    }
+    
     if (operation !== null && !waitingForOperand) {
         calculate();
     }
@@ -73,7 +82,9 @@ function calculate() {
         case '/':
             if (current === 0) {
                 currentValue = 'Error';
+                previousValue = '';
                 operation = null;
+                waitingForOperand = false;
                 updateDisplay();
                 return;
             }
